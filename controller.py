@@ -39,7 +39,17 @@ class Game:
             self.board.print()
     
     def load_file(self):
-        """Загружает историю ходов из файла 'history.txt' и воспроизводит их.
-        """
+    """Загружает историю ходов из файла 'history.txt' и воспроизводит их."""
+    try:
         with open('history.txt', 'r') as f:
-            pass
+            moves = f.readlines()  # Читаем все строки из файла
+            for move in moves:
+                start, end = move.strip().split()  # Разделяем начальную и конечную клетки
+                print(f'Выполняю ход: {start} → {end}')
+                self.board.move(start, end)  # Выполняем ход
+                self.board.print()  # Показываем доску после каждого хода
+            print('История ходов успешно загружена.')
+    except FileNotFoundError:
+        print('Файл history.txt не найден.')
+    except Exception as e:
+        print(f'Ошибка при загрузке файла: {e}')
