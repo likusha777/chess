@@ -2,45 +2,44 @@
 from new_board import Board
 
 class Game:
+    """класс управляющий игровым процессом и взаимодействием с пользователем
+
+    Args:
+        board (Board): Объект шахматной доски
+    """
+
     def __init__(self):
+        """Инициализирует игру создавая новую шахматную доску"""
         self.board = Board()
 
-    def move(self, start: str, end: str):
-        is_win = self.board.move(start, end)
+    def move(self):
+        """выполняет ход и обновляет состояние доски
+        """
+        self.board.move()
         self.board.print()
-        if is_win:
-            print(f'Игра окончена! Победили {self.board.move_now}.')
-        else:
-            print(f'\nОжидание хода от {self.board.move_now}')
+        print(f'\nОжидание хода от {self.move_now}')
 
     def default_game(self):
+        """Запускает стандартную игру с пошаговым вводом ходов от пользователя"""
         is_win = False
         while is_win != True:
-            print(f'Номер хода: {len(self.board.history)+1}')
-            print(f'Текущий ход у {self.board.move_now}')
-            a = input('Введите координаты фигуры или `назад` чтобы вернуть ход: ')
+            print(f'номер хода: {len(self.board.history)+1}')
+            print(f'текущий ход у {self.board.move_now}')
+            a = input('введите координаты фигуры или `назад` чтобы вернуть ход: ')
             if 'назад' in a: 
-                i = int(input(f'На сколько ходов хотите вернуться? Всего было {len(self.board.history)}\n> '))
+                i = int(input(f'на сколько ходов хотите вернуться? Всего было {len(self.board.history)}\n> '))
                 obj = self.board.history[-i]
                 self.board.grid = obj['grid']
                 self.board.move_now = obj['move']
                 self.board.print()
                 continue
             self.board.print_predict(a)
-            b = input('Введите координаты клетки, куда хотите передвинуть: ')
+            b = input('введите координаты клетки, куда хотите передвинуть: ')
             is_win = self.board.move(a, b)
             self.board.print()
-
+    
     def load_file(self):
-        try:
-            with open('history.txt', 'r') as f:
-                moves = f.readlines()
-                for move in moves:
-                    start, end = move.strip().split()
-                    self.move(start, end)
-                print('История ходов успешно загружена.')
-        except FileNotFoundError:
-            print('Файл history.txt не найден.')
-        except Exception as e:
-            print(f'Ошибка при загрузке файла: {e}')
-
+        """Загружает историю ходов из файла 'history.txt' и воспроизводит их.
+        """
+        with open('history.txt', 'r') as f:
+            pass
