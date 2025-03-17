@@ -78,7 +78,7 @@ class Board:
         self.move_now = self.move_now == 'white' and 'black' or 'white'
 
     def next(self, notation: str):
-        """Переходит к следующему ходу (пока не реализовано)"""
+        """Переходит к следующему ходу"""
         pass
 
     def transtale(self, address: str):
